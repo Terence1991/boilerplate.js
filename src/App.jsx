@@ -5,6 +5,8 @@ import MessageList from "./MessageList.jsx"
 class App extends Component {
  constructor(props) {
    super(props);
+   // how to set up web socket
+   this.socket = new WebSocket("ws://0.0.0.0:3001");
    this.state = {
     currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
     messages: [
