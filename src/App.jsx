@@ -35,9 +35,14 @@ class App extends Component {
   }, 3000);
 }
 
-render() {
-  // more code here..
-}
+// call function to make object to merge with state
+ sendMessage = (message) => {
+   let object = {username: this.state.currentUser.name, content: message , id: this.state.messages.length + 1}; 
+   console.log("this is my my object:", object);
+   const messages = this.state.messages.concat(object);
+   this.setState({messages: messages})
+
+ }
 
   render() {
     return (
@@ -46,7 +51,7 @@ render() {
         <a href="/" className="navbar-brand">Chatty</a>
         </nav>
         <MessageList messages = {this.state.messages}/>
-        <ChatBar user= {this.state.currentUser}/>
+        <ChatBar sendMessage={this.sendMessage} user= {this.state.currentUser}/>
       </div>
     );
   }
