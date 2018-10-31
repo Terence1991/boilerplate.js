@@ -20,6 +20,8 @@ const clients = {
 
 }
 
+
+
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
@@ -49,7 +51,6 @@ wss.broadcast = function broadcast(data) {
 };
 
 
-
  const addClient = (ws, color = "black", username = 'Anonymous') => {
   const userId = uuidv4();
   ws.userId = userId;
@@ -62,6 +63,8 @@ const checkTypeOf = (message) => {
     case "postMessage":
     message.type = "incomingMessage";
     break; 
+    case "postNotification":  
+    mesage.type = "incomingNotification";
   } 
   return message;
  
