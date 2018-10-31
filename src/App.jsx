@@ -8,19 +8,8 @@ class App extends Component {
    // how to set up web socket
    this.socket = new WebSocket("ws://0.0.0.0:3001");
    this.state = {
-    currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
-    messages: [
-      {
-        username: "Bob",
-        content: "Has anyone seen my marbles?",
-        id: 1988
-      },
-      {
-        username: "Anonymous",
-        content: "No, I think you lost them. You lost your marbles Bob. You lost them for good.",
-        id: 1989
-      }
-    ]
+    currentUser: {name: "anonymous"}, 
+    messages: []
   }
  }
 
@@ -35,16 +24,60 @@ class App extends Component {
     // Calling setState will trigger a call to render() in App and all child components.
     this.setState({messages: messages})
   }, 3000);
+  this.socket.onopen = () => {
+    console.log("helllooooooo")
+  }
+  // function to get user info from back end
+  this.socket.onmessage = (event) => {
+    console.log(event)
+    const incomingData = JSON.parse(event.data)
+    console.log("This is my incoming data:", incomingData);
+
+
+    switch (incomingData.type) {
+      case 'incomingUserNotification':
+        this.updateUserInfo(incomingData.id, incomingData.userName);
+        break;
+        case 'incomingMessage':
+        this.updateMessages(incomingData);
+        break;
+       default:
+        console.log('Unkown Message Type');
+  
+    }
+}
+}
+
+updateUserInfo = (userId,  color = 'black') => {
+  this.setState({
+    currentUser: { id: userId, name: this.state.currentUser.name, color }
+  });
+};
+
+updateMessages = (message) => {
+  this.setState(
+    {messages: [...this.state.messages, message]})
 }
 
 // call function to make object to merge with state
- sendMessage = (message) => {
-   let object = {username: this.state.currentUser.name, content: message , id: this.state.messages.length + 1}; 
+ sendMessage = (message, userName) => {
+   let object = {username: userName, content: message , type:'postMessage'}; 
    console.log("this is my my object:", object);
    const messages = this.state.messages.concat(object);
-   this.setState({messages: messages})
+  //  this.setState({messages: messages})
+   this.socket.send(JSON.stringify(object));
 
  }
+
+   sendUserName = (userName) => {
+    console.log("this is my thinng:", userName);
+     if(this.state === userName) {
+  
+     } else {
+       socket.send('**UserA** changed their name to **UserB**');
+     }
+   }
+
 
   render() {
     return (
@@ -53,7 +86,7 @@ class App extends Component {
         <a href="/" className="navbar-brand">Chatty</a>
         </nav>
         <MessageList messages = {this.state.messages}/>
-        <ChatBar sendMessage={this.sendMessage} user= {this.state.currentUser}/>
+        <ChatBar sendUserName={this.sendUserName} sendMessage={this.sendMessage} user= {this.state.currentUser}/>
       </div>
     );
   }
