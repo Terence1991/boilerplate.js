@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ChatBar from "./ChatBar.jsx"
 import MessageList from "./MessageList.jsx"
+const uuidv4 = require('uuid/v4')
 
 class App extends Component {
  constructor(props) {
@@ -9,7 +10,8 @@ class App extends Component {
    this.socket = new WebSocket("ws://0.0.0.0:3001");
    this.state = {
     currentUser: {name: "anonymous"}, 
-    messages: []
+    messages: [],
+    numberOfUsers: 0
   }
  }
 
@@ -29,23 +31,22 @@ class App extends Component {
   }
   // function to get user info from back end
   this.socket.onmessage = (event) => {
-    console.log(event)
     const incomingData = JSON.parse(event.data)
     console.log("This is my incoming data:", incomingData);
+   
 
-
-    switch (incomingData.type) {
-      case 'incomingUserNotification':
-        this.updateUserInfo(incomingData.id, incomingData.userName);
+    //{"totalclients":2,"type":"incomingClientInfo"}
+     switch (incomingData.type) {
+      case 'incomingClientInfo':
+      console.log('number of users')
+        this.setState({numberOfUsers: incomingData.totalclients});
         break;
-        case 'incomingMessage':
-        this.updateMessages(incomingData);
-        break;
-       default:
-        console.log('Unkown Message Type');
-  
-    }
-}
+      case 'incomingMessage':
+      console.log('incoming message')
+      this.updateMessages(incomingData);
+      break;
+        }
+  }
 }
 
 updateUserInfo = (userId,  color = 'black') => {
@@ -69,12 +70,12 @@ updateMessages = (message) => {
 
  }
 
-   sendUserName = (userName) => {
-    console.log("this is my thinng:", userName);
+   sendUserName = (userName, oldUserName) => {
+    console.log("this is my thinng:", userName, oldUserName);
      if(this.state === userName) {
   
      } else {
-       socket.send('**UserA** changed their name to **UserB**');
+       this.socket.send(JSON.stringify({ username: userName, id: uuidv4(), type: "postNotification", content: oldUserName}));
      }
    }
 
@@ -83,10 +84,16 @@ updateMessages = (message) => {
     return (
       <div>
         <nav className="navbar">
+        <div className="navContainer">
+        <div>
         <a href="/" className="navbar-brand">Chatty</a>
+        </div>
+        <div className='numberOfUsers'>Number of users online:{this.state.numberOfUsers}</div>
+        </div>
+        
         </nav>
         <MessageList messages = {this.state.messages}/>
-        <ChatBar sendUserName={this.sendUserName} sendMessage={this.sendMessage} user= {this.state.currentUser}/>
+        <ChatBar sendUserName={this.sendUserName} sendMessage={this.sendMessage} user={this.state.currentUser}/>
       </div>
     );
   }

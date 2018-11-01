@@ -8,7 +8,14 @@ class MessageList extends Component {
     let userMessages = this.props.messages; 
     console.log(userMessages);
     let arrayOfMessages =  userMessages.map((message) => {
-     return <Message userName={message.username} content={message.content} id={message.id}/>
+        if(message.type === "incomingUserNotification") {
+           return (<div class="notification">
+                <span class="notification-content">{message.content} changed their name to {message.username}.</span>
+            </div>)
+            
+        } else {
+            return <Message userName={message.username} content={message.content} id={message.id}/>
+        }
 
 });
 
