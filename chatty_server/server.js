@@ -42,11 +42,10 @@ wss.on('connection', (ws) => {
 });
 
 wss.broadcast = function broadcast(data) {
+  console.log(1);
   wss.clients.forEach(function each(client) {
-    // if (client.readyState === WebSocket.OPEN) {
-       let info = checkTypeOf(data)
-      client.send(JSON.stringify(info));
-    // }
+    console.log(2);
+      client.send(JSON.stringify(data));
   });
 };
 
