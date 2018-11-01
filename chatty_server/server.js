@@ -42,15 +42,15 @@ wss.on('connection', (ws) => {
 });
 
 wss.broadcast = function broadcast(data) {
-  console.log(1);
+  console.log("brodcast is going through");
   wss.clients.forEach(function each(client) {
-    console.log(2);
-      client.send(JSON.stringify(data));
+    console.log("for each client");
+      client.send(JSON.stringify(checkTypeOf(data)));
   });
 };
 
 
- const addClient = (ws, color = "black", username = 'Anonymous') => {
+const addClient = (ws, color = "black", username = 'Anonymous') => {
   const userId = uuidv4();
   ws.userId = userId;
   clients[userId] = {id: userId, username , color}
@@ -60,12 +60,11 @@ wss.broadcast = function broadcast(data) {
 const checkTypeOf = (message) => {
   switch(message.type) {
     case "postMessage":
-    message.type = "incomingMessage";
-    break; 
+      message.type = "incomingMessage";
+      break; 
     case "postNotification":  
-    mesage.type = "incomingNotification";
+      message.type = "incomingUserNotification";
+      break;
   } 
   return message;
- 
-    
 }
