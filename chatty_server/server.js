@@ -26,8 +26,13 @@ const clients = {
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
-  console.log('Client connected');
-
+console.log('Client connected');
+const messageObject = {
+  totalclients: wss.clients.size,
+  type: "incomingClientInfo"
+}
+console.log("this is broadcasting number of users online");
+wss.broadcast(messageObject);
 
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
