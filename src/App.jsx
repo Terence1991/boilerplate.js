@@ -86,9 +86,9 @@ updateMessages = (message) => {
         <nav className="navbar">
         <div className="navContainer">
         <div>
-        <a href="/" className="navbar-brand">Chatty</a>
+        <a href="/" className="navbar-brand"> <i className="fas fa-comment"></i>Chatty</a>
         </div>
-        <div className='numberOfUsers'>Number of users online:{this.state.numberOfUsers}</div>
+        <div className='numberOfUsers'><i className="fas fa-users"></i>Users online:{this.state.numberOfUsers}</div>
         </div>
         
         </nav>
