@@ -19,11 +19,8 @@ class App extends Component {
   console.log("componentDidMount <App />");
   setTimeout(() => {
     console.log("Simulating incoming message");
-    // Add a new message to the list of messages in the data store
     const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
     const messages = this.state.messages.concat(newMessage)
-    // Update the state of the app component.
-    // Calling setState will trigger a call to render() in App and all child components.
     this.setState({messages: messages})
   }, 3000);
   this.socket.onopen = () => {
@@ -35,7 +32,6 @@ class App extends Component {
     console.log("This is my incoming data:", incomingData);
    
 
-    //{"totalclients":2,"type":"incomingClientInfo"}
      switch (incomingData.type) {
       case 'incomingClientInfo':
       console.log('number of users')
@@ -65,7 +61,6 @@ updateMessages = (message) => {
    let object = {username: userName, content: message , type:'postMessage'}; 
    console.log("this is my my object:", object);
    const messages = this.state.messages.concat(object);
-  //  this.setState({messages: messages})
    this.socket.send(JSON.stringify(object));
 
  }
@@ -78,8 +73,7 @@ updateMessages = (message) => {
        this.socket.send(JSON.stringify({ username: userName, id: uuidv4(), type: "postNotification", content: oldUserName}));
      }
    }
-
-
+  
   render() {
     return (
       <div>
@@ -90,7 +84,6 @@ updateMessages = (message) => {
         </div>
         <div className='numberOfUsers'><i className="fas fa-users"></i>Users online:{this.state.numberOfUsers}</div>
         </div>
-        
         </nav>
         <MessageList messages = {this.state.messages}/>
         <ChatBar sendUserName={this.sendUserName} sendMessage={this.sendMessage} user={this.state.currentUser}/>

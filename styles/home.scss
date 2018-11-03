@@ -1,5 +1,5 @@
 h1 {
-  color: tomato;
+  color:rgb(72, 72, 129);
 }
 
 body {
@@ -11,7 +11,7 @@ body {
 }
 
 .chatbar {
-  background: tomato;
+  background: rgb(72, 72, 129);
   border-top: 1px solid black;
   bottom: 0;
   display: flex;
@@ -66,7 +66,7 @@ body {
 }
 
 .navbar {
-  background: tomato;
+  background: rgb(72, 72, 129);
   border-bottom: 1px solid black;
   height: 60px;
   left: 0;
@@ -74,6 +74,28 @@ body {
   position: fixed;
   right: 0;
   top: 0;
+}
+
+.numberOfUsers {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  background-color: grey;
+  border-radius: 1px;
+
+  
+}
+
+.fas.fa-users {
+ margin-right: 10px;
+}
+
+.fas.fa-comment {
+margin-right: 10px;
+}
+
+.navContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .navbar-brand {
