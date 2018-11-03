@@ -1,6 +1,6 @@
 This is my app Chatty. It is a web app built using react the allow users to comunicate with eachother.
 
-!(https://github.com/Terence1991/boilerplate.js/blob/master/pictures/Screenshot%20from%202018-11-03%2014-08-46.png)[Screen shot of app]
+!(asdasdas)[https://github.com/Terence1991/boilerplate.js/blob/master/pictures/Screenshot%20from%202018-11-03%2014-08-46.png]
 
 
 ##Dependenancies
