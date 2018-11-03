@@ -35,7 +35,6 @@ class App extends Component {
     console.log("This is my incoming data:", incomingData);
    
 
-    //{"totalclients":2,"type":"incomingClientInfo"}
     
      switch (incomingData.type) {
       case 'incomingClientInfo':
@@ -65,12 +64,10 @@ updateMessages = (message) => {
     {messages: [...this.state.messages, message]})
 }
 
-// call function to make object to merge with state
  sendMessage = (message, userName) => {
    let object = {username: userName, content: message , type:'postMessage'}; 
    console.log("this is my my object:", object);
    const messages = this.state.messages.concat(object);
-  //  this.setState({messages: messages})
    this.socket.send(JSON.stringify(object));
 
  }
